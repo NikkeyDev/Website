@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+
+    <link href="Css.css" rel="stylesheet">
+    <title>3D Blog</title>
+</head>
+<nav>
+        <ul class="day-nav">
+            <li><a href="#Day 1"> Day 1</a></li>
+            <li><a href="#Day 2"> Day 2</a></li>
+            <li><a href="#Day 3"> Day 3</a></li>
+            <li><a href="#Day 4"> Day 4</a></li>
+        </ul>
+    </nav>
+<body >
+    <!--DAY one-->
+    <div id="Day 1">
+        <h1>Day One : <br> 
+        <h2>I were feeling to create a game, the game ended up being called "3D"... <br>Yep "3D" </h2></h1>
+    </div>
+    <!--DAY Two-->
+    <div id="Day 2">
+        <h1>
+            Day Two : <br>
+            <h2>
+                Today i implemented some code to make the charater Jump and Walk according to their local axis.
+                <br>
+                <p>
+                    <h3>
+                        PlayerController Script :
+                    </h3>
+                    <pre>
+                        <code >
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    private Rigidbody rb;
+    private Vector3 movement;
+    public float speed;
+    public float jumpForce;
+    public bool isGrounded;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        movement = transform.TransformDirection(movement);
+        movement *= speed;
+    }
+
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = movement;
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground")) isGrounded = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground")) isGrounded = false;
+    }
+}
+                        </code>
+                    </pre>
+                    <h3>
+                        CameraController Script
+                    </h3>
+
+                    <pre>
+                        <code>
+using UnityEngine;
+
+public class CameraController : MonoBehaviour
+{
+    public GameObject player;
+    public GameObject cam; 
+    public float Sensitivity;
+    private float xRot;
+    private float yRot;
+    
+    void Start()
+    {
+        player = GameObject.Find("Player");
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float MouseY = Input.GetAxis("Mouse Y") * Sensitivity * Time.deltaTime;
+        float MouseX = Input.GetAxis("Mouse X") * Sensitivity * Time.deltaTime;
+       xRot -= MouseY;
+       xRot = Mathf.Clamp(xRot, -45, 45);
+       yRot += MouseX;
+        player.transform.rotation = Quaternion.Euler(Vector3.up*yRot);
+        transform.rotation = Quaternion.Euler(xRot,yRot,0);
+        
+        
+    }
+}
+
+                        </code>
+                    </pre>
+                </p>
+                
+            </h2>
+        </h1>
+    </div>
+    <!--DAY Three-->
+    <div id="Day 3">
+        <h1>Day Three :</h1>
+        <h2> Today i added some frame rate settings and Vsync.<br>
+        Later that morning i updated the script to work with lower frame rates,<br>
+        and i made it so the cursor wouldnt show when playing the "game"</h2>
+        <p>
+        <h3>
+            Current PlayerController :
+        </h3>
+        <br>
+        <pre>
+            <code>
+using System;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    private Rigidbody rb;
+    private Vector3 movement;
+    public float speed;
+    public float jumpForce;
+    public bool isGrounded;
+    public int TargetFrameRate;
+    public bool Vsync;
+
+
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        
+
+    }
+
+    private void Awake()
+    {
+        QualitySettings.vSyncCount = Vsync ? 1 : 0;  
+        Application.targetFrameRate = TargetFrameRate;
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        movement = transform.TransformDirection(movement);
+        movement *= speed;
+        movement *= Time.fixedDeltaTime;
+    }
+
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = movement;
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground")) isGrounded = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground")) isGrounded = false;
+    }
+}
+            </code>
+        </pre>
+        <br>
+        <h3>Updated Camera Controller :</h3>
+        <pre>
+            <code>
+using UnityEngine;
+
+public class CameraController : MonoBehaviour
+{
+    public GameObject player;
+    public GameObject cam; 
+    public float Sensitivity;
+    private float xRot;
+    private float yRot;
+    
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        player = GameObject.Find("Player");
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float MouseY = Input.GetAxis("Mouse Y") * Sensitivity * Time.deltaTime;
+        float MouseX = Input.GetAxis("Mouse X") * Sensitivity * Time.deltaTime;
+       xRot -= MouseY;
+       xRot = Mathf.Clamp(xRot, -45, 45);
+       yRot += MouseX;
+        player.transform.rotation = Quaternion.Euler(Vector3.up*yRot);
+        transform.rotation = Quaternion.Euler(xRot,yRot,0);
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+Cursor.lockState = CursorLockMode.None;
+Cursor.visible = true;
+        }
+        
+    }
+}
+
+            </code>
+        </pre>
+
+        </p>
+    </div>
+    <!--DAY Four-->
+    <div id="Day 4">
+        <h1> Day Four</h1>
+        <h2>Today i made some changes to the player controller to no longer fall slowly to the ground.</h2>
+        <p>
+            <h3>
+                PlayerController :
+            </h3>
+        </p>
+        <pre>
+            <code>
+using System;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    private Rigidbody rb;
+    private Vector3 movement;
+    public float speed;
+    public float jumpForce;
+    public bool isGrounded;
+    public int TargetFrameRate;
+    public bool Vsync;
+
+
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        
+
+    }
+
+    private void Awake()
+    {
+        QualitySettings.vSyncCount = Vsync ? 1 : 0;  
+        Application.targetFrameRate = TargetFrameRate;
+    }
+
+
+    private void Update()
+    {
+        
+            
+
+        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        movement = transform.TransformDirection(movement);
+        movement *= speed;
+        movement *= Time.fixedDeltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 vel = new Vector3(movement.x, rb.linearVelocity.y, movement.z);
+        rb.linearVelocity = vel;
+
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground")) isGrounded = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground")) isGrounded = false;
+    }
+}
+            </code>
+        </pre>
+    </div>
+        
+</body>
+</html>

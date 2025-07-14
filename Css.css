@@ -1,0 +1,57 @@
+body
+{
+    background-color: blueviolet;
+    font-family: 'Oxanium',sans-serif;
+}
+div
+{
+    border: 2px solid;
+    background-color: antiquewhite;
+    border-radius: 20px;
+    padding-left: 10px;
+    margin: 0 0 20px;
+}
+pre{
+
+    display: inline-block;
+    border: 3px solid;
+    background-color: black;
+    border-radius: 10px;
+    padding-left: 10px;
+    overflow-x: auto;
+    max-width: 70%;
+
+}
+code
+{
+    font-family: 'Fira Code',monospace;
+    color: rgb(80, 255, 80);
+
+}
+.day-nav
+{
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    padding: 10px;
+    background-color: bisque;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+   
+}
+.day-nav li a
+{
+    text-decoration: none;
+    color:indigo;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 6px;
+     transition: background-color 0.24s ease-in-out;
+   
+}
+.day-nav li a:hover
+{
+    
+    background-color: lavender;
+}
