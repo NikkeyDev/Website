@@ -1,0 +1,111 @@
+body
+{
+    background-color: black;
+    position: relative;
+}
+a
+{
+ text-decoration: none;
+ color: white;
+ transition: color 0.3s ease-in-out;
+ 
+}
+a:hover
+{
+    color:bisque;
+    
+}
+.container {
+    justify-content: center;
+    display: flex;
+    
+}
+
+
+.box
+{
+    margin: 1 auto;
+    padding:1em;
+    width: 300px;
+    border-radius: 10px;
+    position: relative;
+    background: black;
+    
+}
+@property --angle
+{
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+.box::after, .box::before
+{
+    --angle: 0deg;
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle),blue,pink,blue);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 3px;
+    border-radius: 10px;
+    animation: 3s spin linear infinite;
+
+}
+.box::before
+{
+    filter: blur(1.5rem);
+    
+}
+@keyframes spin
+{
+    from{ --angle: 0deg;  }
+    to  { --angle: 360deg;}
+}
+
+
+
+
+
+
+.text {
+  font-size: 5em;
+  letter-spacing: 0;
+  font-family: monospace;
+  border-right: 5px solid;
+  white-space: nowrap;
+  color: azure;
+  overflow: hidden;
+  width: 0ch; 
+    background: linear-gradient(to right,blue, violet);
+    background-size : 200% 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+
+  animation:
+   animate-Gradient 2.5s linear infinite,
+    typing 4s steps(21, end) infinite alternate, 
+    cursor 0.7s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0ch; }
+  to { width: 21ch; }
+}
+
+@keyframes cursor {
+  0%, 100% { border-color: rgb(255, 255, 255); }
+  50% { border-color: transparent; }
+}
+@keyframes animate-Gradient
+{
+    from{background-position: 200% 0%;}
+to{background-position: 0% 0%;} 
+}
+
