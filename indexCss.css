@@ -20,6 +20,18 @@ a:hover
     display: flex;
     
 }
+.GridBox
+{
+   display: grid;   
+grid-template-columns: repeat(auto-fill,minmax(300px,4fr));
+gap: 30px;
+box-sizing: border-box;
+
+
+
+}
+
+
 
 
 .box
@@ -45,7 +57,7 @@ a:hover
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: conic-gradient(from var(--angle),blue,pink,blue);
+    background-image: conic-gradient(from var(--angle),var(--Color),var(--Color2),var(--Color));
     top: 50%;
     left: 50%;
     translate: -50% -50%;
