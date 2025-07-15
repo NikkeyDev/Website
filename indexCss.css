@@ -75,7 +75,7 @@ a:hover {
     z-index: -1;
     padding: 3px;
     border-radius: 10px;
-   
+    animation: 3s spin linear infinite;
 
 }
 
@@ -84,7 +84,15 @@ a:hover {
 
 }
 
+@keyframes spin {
+    from {
+        --angle : 0deg;
+    }
 
+    to {
+        --angle: 360deg;
+    }
+}
 
 
 
