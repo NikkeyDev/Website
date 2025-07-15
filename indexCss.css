@@ -23,14 +23,20 @@ a:hover
 .GridBox
 {
    display: grid;   
-grid-template-columns: repeat(auto-fill,minmax(300px,4fr));
-gap: 30px;
-box-sizing: border-box;
+grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+gap: 125px;
+padding: 30px;
+width: 100%;
+align-items: start;
+overflow: hidden;
 
 
 
 }
-
+.GridBox > * {
+  box-sizing: border-box;
+  margin-top: 15%;
+}
 
 
 
@@ -84,7 +90,10 @@ box-sizing: border-box;
 
 
 .text {
-  font-size: 5em;
+  font-size: clamp(20px,5vw,4rem);
+  line-height: 1.4;
+  max-width: 100%;
+  word-break: break-word;
   letter-spacing: 0;
   font-family: monospace;
   border-right: 5px solid;
@@ -98,6 +107,7 @@ box-sizing: border-box;
   -moz-background-clip: text;
   background-clip: text;
     -webkit-text-fill-color: transparent;
+    
 
 
   animation:
